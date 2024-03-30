@@ -1,20 +1,21 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
-import {View, Button, TextInput, Text, StyleSheet} from 'react-native';
-import Sudoku from 'sudoku-umd';
+import React, { useState } from 'react';
+import { View, Button, TextInput, Text, StyleSheet } from 'react-native';
+import { Sudoku } from './sudoku';
+import RNRestart from 'react-native-restart';
 
-const generateRandomSudoku = () => {
-  // Difficulty can be adjusted here
-  const difficulty = 'easy';
-  const puzzle = Sudoku.generate(difficulty);
-  return Sudoku.board_string_to_grid(puzzle);
-};
+let N = 9;
+let K = 40;
+let sudoku = new Sudoku(N, K);
+sudoku.fillValues();
+sudoku.printSudoku();
+console.log('\n')
 
 const SudokuSolver = () => {
-  const [initialPuzzle, setInitialPuzzle] = useState(generateRandomSudoku());
   const [puzzle, setPuzzle] = useState(
-    JSON.parse(JSON.stringify(initialPuzzle)),
+    JSON.parse(JSON.stringify(sudoku.returnMatrix()))
   );
+
   const [solvedPuzzle, setSolvedPuzzle] = useState([]);
   const [validationResult, setValidationResult] = useState('');
 
@@ -25,10 +26,10 @@ const SudokuSolver = () => {
   };
 
   const solveSudoku = board => {
-    const flattenedBoard = board.flat().join('');
-    const solved = Sudoku.solve(flattenedBoard);
+    const solved = sudoku.fillRemaining(0, 0);
+    console.log(sudoku.printSudoku());
     if (solved) {
-      const solvedGrid = Sudoku.board_string_to_grid(solved);
+      const solvedGrid = sudoku.returnMatrix();
       return solvedGrid;
     } else {
       console.log('Puzzle is not solvable.');
@@ -43,11 +44,13 @@ const SudokuSolver = () => {
   };
 
   const resetPuzzle = () => {
-    const newPuzzle = generateRandomSudoku();
-    setInitialPuzzle(newPuzzle);
-    setPuzzle(JSON.parse(JSON.stringify(newPuzzle)));
-    setSolvedPuzzle([]);
-    setValidationResult('');
+    RNRestart.Restart();
+    // sudoku.fillValues();
+    // sudoku.printSudoku();
+    // const newPuzzle = sudoku.returnMatrix();
+    // setPuzzle(JSON.parse(JSON.stringify(newPuzzle)))
+    // setSolvedPuzzle([]);
+    // setValidationResult('');
   };
 
   const handleCellChange = (value, row, col) => {
