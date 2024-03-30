@@ -128,13 +128,4 @@ class Sudoku {
     }
 }
 
-// let N = 9;
-// let K = 40;
-// let sudoku = new Sudoku(N, K);
-// sudoku.fillValues();
-// sudoku.printSudoku();
-// console.log('\n')
-// sudoku.fillRemaining(0, 0)
-// sudoku.printSudoku();
-
 export { Sudoku }

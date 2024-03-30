@@ -8,8 +8,6 @@ let N = 9;
 let K = 40;
 let sudoku = new Sudoku(N, K);
 sudoku.fillValues();
-sudoku.printSudoku();
-console.log('\n')
 
 const SudokuSolver = () => {
   const [puzzle, setPuzzle] = useState(
@@ -27,7 +25,6 @@ const SudokuSolver = () => {
 
   const solveSudoku = board => {
     const solved = sudoku.fillRemaining(0, 0);
-    console.log(sudoku.printSudoku());
     if (solved) {
       const solvedGrid = sudoku.returnMatrix();
       return solvedGrid;
@@ -45,12 +42,6 @@ const SudokuSolver = () => {
 
   const resetPuzzle = () => {
     RNRestart.Restart();
-    // sudoku.fillValues();
-    // sudoku.printSudoku();
-    // const newPuzzle = sudoku.returnMatrix();
-    // setPuzzle(JSON.parse(JSON.stringify(newPuzzle)))
-    // setSolvedPuzzle([]);
-    // setValidationResult('');
   };
 
   const handleCellChange = (value, row, col) => {
